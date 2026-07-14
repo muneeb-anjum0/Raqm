@@ -78,13 +78,21 @@
 
 <PageHeader
 	title="Encrypted local vault"
-	description="Create or unlock the browser vault. Raqm never stores your password or raw encryption key."
+	description="Create or unlock the encrypted browser vault. Raqm never stores your password or raw encryption key."
 />
 
-<div class="grid gap-4 lg:grid-cols-[1fr_0.8fr]">
-	<form class="card grid gap-4 p-6">
-		<h2 class="text-xl font-black">{exists ? 'Unlock vault' : 'Create vault password'}</h2>
-		<p class="text-sm text-raqm-muted">
+<div class="grid gap-3 lg:grid-cols-[1fr_0.82fr]">
+	<form class="card grid gap-4 p-5">
+		<div class="flex items-start justify-between gap-4">
+			<div>
+				<p class="eyebrow">Secure workspace</p>
+				<h2 class="text-xl font-bold">{exists ? 'Unlock vault' : 'Create vault password'}</h2>
+			</div>
+			<span class="status-pill {$vaultStatus.isUnlocked ? 'status-success' : ''}">
+				{$vaultStatus.isUnlocked ? 'Unlocked' : 'Locked'}
+			</span>
+		</div>
+		<p class="text-sm leading-6 text-raqm-muted">
 			Lost passwords cannot be recovered because the decryption key is derived locally. Use at least 8 characters.
 		</p>
 		<label class="field">
@@ -98,26 +106,33 @@
 			</label>
 		{/if}
 		{#if error}<p class="rounded-lg bg-red-50 p-3 text-sm font-bold text-raqm-danger">{error}</p>{/if}
-		<button class="btn btn-primary" type="button" disabled={!hydrated} onclick={createOrUnlock}
+		<button class="btn btn-primary w-fit" type="button" disabled={!hydrated} onclick={createOrUnlock}
 			>{exists ? 'Unlock vault' : 'Create encrypted vault'}</button
 		>
 	</form>
 
-	<section class="card grid gap-4 p-6">
-		<h2 class="text-xl font-black">Vault controls</h2>
-		<p class="text-sm text-raqm-muted">
+	<section class="card grid gap-4 p-5">
+		<div>
+			<p class="eyebrow">Controls</p>
+			<h2 class="text-xl font-bold">Vault controls</h2>
+		</div>
+		<p class="text-sm leading-6 text-raqm-muted">
 			Backup files remain encrypted. Import replaces the local vault metadata and records.
 		</p>
-		<button class="btn btn-secondary" type="button" disabled={!$vaultStatus.hasVault} onclick={backup}
-			>Export encrypted backup</button
-		>
-		<label class="btn btn-secondary cursor-pointer">
-			Import encrypted backup
-			<input class="sr-only" type="file" accept="application/json" onchange={importBackup} />
-		</label>
-		<div class="rounded-lg border border-raqm-border p-4">
-			<h3 class="font-black text-raqm-danger">Panic wipe</h3>
-			<p class="mt-1 text-sm text-raqm-muted">Type WIPE RAQM to delete encrypted local records from this browser.</p>
+		<div class="grid gap-2 sm:grid-cols-2">
+			<button class="btn btn-secondary" type="button" disabled={!$vaultStatus.hasVault} onclick={backup}
+				>Export encrypted backup</button
+			>
+			<label class="btn btn-secondary cursor-pointer">
+				Import encrypted backup
+				<input class="sr-only" type="file" accept="application/json" onchange={importBackup} />
+			</label>
+		</div>
+		<div class="rounded-xl border border-raqm-border bg-white p-4">
+			<h3 class="font-bold text-raqm-danger">Panic wipe</h3>
+			<p class="mt-1 text-sm leading-6 text-raqm-muted">
+				Type WIPE RAQM to delete encrypted local records from this browser.
+			</p>
 			<input class="input mt-3" bind:value={wipeConfirm} />
 			<button class="btn btn-danger mt-3 w-full" type="button" disabled={wipeConfirm !== 'WIPE RAQM'} onclick={wipe}
 				>Panic wipe local data</button

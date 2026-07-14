@@ -18,10 +18,10 @@
 			<article class="card p-5">
 				<div class="flex flex-wrap items-start justify-between gap-3">
 					<div>
-						<h2 class="text-lg font-black">{item.title}</h2>
-						<p class="mt-1 text-raqm-muted">{item.description}</p>
+						<h2 class="text-lg font-bold">{item.title}</h2>
+						<p class="mt-1 text-sm leading-6 text-raqm-muted">{item.description}</p>
 					</div>
-					<span class="badge capitalize">{item.status}</span>
+					<span class="status-pill capitalize">{item.status}</span>
 				</div>
 			</article>
 		{/each}

@@ -12,9 +12,16 @@
 {#if !$vaultStatus.isUnlocked}
 	<LockedNotice />
 {:else}
-	<form class="card grid gap-4 p-6" onchange={() => updateData(() => $raqmData)}>
+	<form class="card grid gap-4 p-5" onchange={() => updateData(() => $raqmData)}>
+		<div>
+			<p class="eyebrow">Tax already paid</p>
+			<h2 class="text-xl font-bold">Employer withholding</h2>
+			<p class="mt-2 text-sm leading-6 text-raqm-muted">
+				This is tax already deducted by your employer before salary reaches you.
+			</p>
+		</div>
 		<MoneyInput label="Annual employer tax deducted" bind:value={$raqmData.withholding.employerTaxDeducted} />
-		<label class="flex items-center gap-3 font-bold"
+		<label class="flex items-center gap-3 text-sm font-bold"
 			><input type="checkbox" bind:checked={$raqmData.withholding.certificateAvailable} /> Certificate available</label
 		>
 		<a class="btn btn-primary w-fit" href="/app/bank-profit">Continue</a>

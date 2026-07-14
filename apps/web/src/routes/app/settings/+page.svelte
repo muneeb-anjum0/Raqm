@@ -13,10 +13,11 @@
 {#if !$vaultStatus.isUnlocked}
 	<LockedNotice />
 {:else}
-	<section class="card grid gap-4 p-6">
+	<section class="card grid gap-4 p-5">
 		<div>
-			<h2 class="text-xl font-black">Auto-lock</h2>
-			<p class="mt-1 text-raqm-muted">
+			<p class="eyebrow">Local controls</p>
+			<h2 class="text-xl font-bold">Auto-lock</h2>
+			<p class="mt-1 text-sm leading-6 text-raqm-muted">
 				The MVP auto-locks after 15 minutes of inactivity. Non-sensitive UI preferences may use localStorage in later
 				releases; the current MVP stores financial records only in the encrypted vault.
 			</p>

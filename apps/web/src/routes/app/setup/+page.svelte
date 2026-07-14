@@ -9,7 +9,11 @@
 {#if !$vaultStatus.isUnlocked}
 	<LockedNotice />
 {:else}
-	<form class="card grid gap-4 p-6" onchange={() => updateData(() => $raqmData)}>
+	<form class="card grid gap-4 p-5" onchange={() => updateData(() => $raqmData)}>
+		<div>
+			<p class="eyebrow">Step one</p>
+			<h2 class="text-xl font-bold">Set the return context.</h2>
+		</div>
 		<label class="field"
 			><span class="label">Name (optional)</span><input class="input" bind:value={$raqmData.profile.name} /></label
 		>
@@ -37,6 +41,10 @@
 				><option value="monthly">Monthly salary</option><option value="annual">Annual salary</option></select
 			></label
 		>
+		<div class="rounded-xl border border-raqm-border bg-raqm-background p-3 text-sm leading-6 text-raqm-muted">
+			Freelancer, business, landlord, and investor modes are shown as coming later so the current MVP stays focused on
+			salaried filing.
+		</div>
 		<a class="btn btn-primary w-fit" href="/app/income">Continue to income</a>
 	</form>
 {/if}

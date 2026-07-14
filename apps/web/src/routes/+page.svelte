@@ -1,22 +1,35 @@
 <script>
-	import { ArrowRight, Database, FileCheck, Lock, ShieldCheck, Sparkles } from '@lucide/svelte';
+	import { ArrowRight, Check, FileCheck, Lock, ShieldCheck } from '@lucide/svelte';
 	import { pkTy2026Manifest } from '$lib/rules/pkTy2026';
 
-	const flow = [
-		'Create encrypted browser vault',
-		'Enter salary and withholding',
-		'Review assets and liabilities',
-		'Run rules-based estimate',
-		'Export Iris-ready reports'
+	const workflow = [
+		['Collect', 'Salary certificate, tax deducted, bank profit certificates, assets, and liabilities.'],
+		['Prepare', 'Enter the numbers into an encrypted browser vault. Nothing is uploaded.'],
+		['Calculate', 'Run the local rules engine and read the deterministic explanation.'],
+		['Handoff', 'Use the Iris summary and reports while filing manually on FBR Iris.']
 	];
 
-	const learning = [
-		['Tax filing', 'Report income, tax deducted, assets, liabilities, and required annual return details.'],
-		['Salaried filers', 'Employer deduction is not the same as filing. Raqm helps reconcile the whole picture.'],
-		['FBR Iris', 'The official portal where you manually prepare and submit your return. Raqm does not submit it.'],
-		['NTN and ATL', 'Learn the language before opening Iris, without turning tax prep into a panic spiral.'],
-		['Withholding', 'Track employer and bank deductions so they can be reviewed as adjustable tax paid.'],
-		['Documents', 'Salary certificate, bank certificates, statements, asset details, and liability records.']
+	const needs = [
+		'Salary certificate',
+		'Employer tax deducted',
+		'Bank certificates',
+		'Asset statement',
+		'Liability details'
+	];
+
+	const faq = [
+		[
+			'What is FBR Iris?',
+			'FBR Iris is the official portal where you prepare and submit your Pakistan income tax return. Raqm helps you organize and estimate before you open Iris.'
+		],
+		[
+			'Why file if tax is already deducted?',
+			'Withholding is tax paid in advance. Filing reconciles your annual income, deductions, assets, liabilities, and any payable or refund position.'
+		],
+		[
+			'Does Raqm submit my return?',
+			'No. Raqm prepares local summaries and exports. You verify the numbers and submit manually on FBR Iris.'
+		]
 	];
 </script>
 
@@ -24,99 +37,151 @@
 	<title>Raqm | Private by design. Ready for Iris.</title>
 	<meta
 		name="description"
-		content="Raqm is a Pakistan-only local-first tax preparation workspace for salaried filers preparing for FBR Iris."
+		content="Raqm is a local-first Pakistan tax preparation guide for salaried filers preparing for FBR Iris."
 	/>
 </svelte:head>
 
 <main class="landing-page">
+	<nav class="site-nav" aria-label="Landing navigation">
+		<a href="/" class="brand-lockup">
+			<span class="brand-mark">R</span>
+			<span>
+				<span class="brand-name">Raqm</span>
+				<span class="brand-sub">Pakistan tax prep, locally</span>
+			</span>
+		</a>
+		<div class="top-actions">
+			<a class="top-link" href="/hub">Hub</a>
+			<a class="top-link" href="/app/privacy">Privacy</a>
+			<a class="btn btn-primary" href="/app/vault">Start</a>
+		</div>
+	</nav>
+
 	<section class="hero-shell">
 		<div class="reveal">
-			<div class="mb-5 flex flex-wrap gap-2">
-				<span class="badge"><ShieldCheck size={15} /> Data stays on device</span>
-				<span class="badge"><Lock size={15} /> No account</span>
-				<span class="badge"><Database size={15} /> No cloud database</span>
+			<div class="mb-4 flex flex-wrap gap-2">
+				<span class="privacy-chip"><ShieldCheck size={14} /> Data stays on device</span>
+				<span class="privacy-chip"><Lock size={14} /> No account</span>
 			</div>
 			<h1 class="hero-title">Raqm</h1>
 			<p class="hero-subtitle">Private by design. Ready for Iris.</p>
 			<p class="hero-copy">
-				A calm Pakistan-only tax preparation workspace for salaried filers. Understand what matters, organize your
-				numbers locally, run a rules-based estimate, and prepare a clean summary before opening FBR Iris.
+				A compact local-first guide for salaried Pakistani filers: understand the return, organize your numbers,
+				estimate tax, and walk into FBR Iris with a clean handoff.
 			</p>
 			<div class="hero-actions">
-				<a class="btn btn-primary" href="/app/vault">Start private preparation <ArrowRight size={18} /></a>
-				<a class="btn btn-secondary" href="/hub">Open Docker hub</a>
+				<a class="btn btn-primary" href="/app/vault">Start private preparation <ArrowRight size={17} /></a>
+				<a class="btn btn-secondary" href="#guide">Learn the flow</a>
 			</div>
 		</div>
 
-		<div class="hero-board reveal delay-1">
-			<p class="eyebrow">Preparation flow</p>
-			<div class="mt-4 grid gap-3">
-				{#each flow as item, index}
+		<aside class="hero-panel reveal delay-1" aria-label="Product preview">
+			<p class="eyebrow">Before Iris</p>
+			<div class="timeline">
+				{#each workflow as [title, body], index}
 					<div class="flow-step">
 						<span class="flow-index">{index + 1}</span>
-						<strong>{item}</strong>
+						<div>
+							<strong>{title}</strong>
+							<p class="m-0 mt-1 text-sm leading-6 text-raqm-muted">{body}</p>
+						</div>
 					</div>
 				{/each}
 			</div>
-		</div>
+		</aside>
 	</section>
 
-	<section class="feature-grid">
-		{#each learning as [title, body], index}
-			<article class="service-card reveal" style={`animation-delay: ${index * 70}ms`}>
-				<div class="service-icon"><Sparkles size={20} /></div>
-				<span>Learn</span>
-				<h2>{title}</h2>
-				<p>{body}</p>
-			</article>
-		{/each}
-	</section>
-
-	<section class="section">
-		<div class="mx-auto grid max-w-6xl gap-4 md:grid-cols-2">
-			<article class="card p-6">
-				<h2 class="text-2xl font-black">What Raqm can do</h2>
-				<p class="mt-3 leading-7 text-raqm-muted">
-					Manual data entry, encrypted local storage, salary withholding, bank profit, assets, liabilities, rules-engine
-					calculation, deterministic explanation, Iris summary, checklist, and local exports.
+	<section id="guide" class="section pt-8">
+		<div class="mx-auto grid max-w-[1180px] gap-3 md:grid-cols-3">
+			<article class="card p-5">
+				<p class="eyebrow">Tax filing, explained simply</p>
+				<h2 class="text-xl font-bold">Your return is the annual story of your money.</h2>
+				<p class="mt-3 text-sm leading-6 text-raqm-muted">
+					Raqm turns salary, withholding, bank profit, assets, and liabilities into a checklist you can review before
+					entering Iris.
 				</p>
 			</article>
-			<article class="card p-6">
-				<h2 class="text-2xl font-black">What Raqm cannot do</h2>
-				<p class="mt-3 leading-7 text-raqm-muted">
-					No FBR replacement, direct Iris submission, legal guarantee, cloud tax record, backend financial-data
-					processing, ATL lookup, CNIC verification, or AI accountant claims.
+			<article class="card p-5">
+				<p class="eyebrow">What is FBR Iris?</p>
+				<h2 class="text-xl font-bold">The official place to file.</h2>
+				<p class="mt-3 text-sm leading-6 text-raqm-muted">
+					Raqm does not replace Iris. It gives you a local preparation workspace so the official filing step feels less
+					opaque.
+				</p>
+			</article>
+			<article class="card p-5">
+				<p class="eyebrow">Why filing matters</p>
+				<h2 class="text-xl font-bold">Deducted tax still needs context.</h2>
+				<p class="mt-3 text-sm leading-6 text-raqm-muted">
+					Employer and bank withholding are adjustable tax paid. Filing helps reconcile them against your full annual
+					position.
 				</p>
 			</article>
 		</div>
 	</section>
 
 	<section class="section pt-0">
-		<div class="mx-auto max-w-6xl">
-			<div class="card p-6 md:p-8">
-				<div class="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+		<div class="mx-auto grid max-w-[1180px] gap-3 md:grid-cols-[0.9fr_1.1fr]">
+			<div class="card p-5">
+				<p class="eyebrow">What you need</p>
+				<div class="grid gap-2">
+					{#each needs as item}
+						<div class="summary-row">
+							<span class="flow-index"><Check size={15} /></span>
+							<strong>{item}</strong>
+						</div>
+					{/each}
+				</div>
+			</div>
+			<div class="card p-5">
+				<p class="eyebrow">What Raqm does</p>
+				<div class="grid gap-3 sm:grid-cols-2">
 					<div>
-						<p class="eyebrow">Pakistan Tax Rules</p>
-						<h2 class="text-3xl font-black">Rule pack status: Verification Required</h2>
-						<p class="mt-3 leading-7 text-raqm-muted">
-							Tax Year {pkTy2026Manifest.taxYear}, pack {pkTy2026Manifest.id}. Values are intentionally marked
-							unverified until manually checked against official sources.
+						<h3 class="font-bold">Inside Raqm</h3>
+						<p class="mt-2 text-sm leading-6 text-raqm-muted">
+							Enter data locally, calculate with a transparent rules engine, review warnings, and export reports.
 						</p>
 					</div>
-					<a class="btn btn-primary" href="/app/rules">View rules</a>
+					<div>
+						<h3 class="font-bold">On your device</h3>
+						<p class="mt-2 text-sm leading-6 text-raqm-muted">
+							Your financial data stays in the encrypted browser vault. No backend database receives it.
+						</p>
+					</div>
+				</div>
+				<div class="mt-4 rounded-xl border border-raqm-border bg-raqm-background p-4">
+					<p class="eyebrow">Latest Pakistan tax rules status</p>
+					<p class="text-sm leading-6 text-raqm-muted">
+						Tax Year {pkTy2026Manifest.taxYear}, pack {pkTy2026Manifest.id}. Status:
+						<strong class="text-raqm-warning"> verification required</strong>.
+					</p>
 				</div>
 			</div>
 		</div>
 	</section>
 
 	<section class="section pt-0">
-		<div class="mx-auto max-w-4xl text-center">
-			<FileCheck class="mx-auto text-raqm-secondary" size={44} />
-			<h2 class="mt-4 text-4xl font-black">Prepare privately, file manually.</h2>
-			<p class="mx-auto mt-3 max-w-2xl leading-7 text-raqm-muted">
-				Raqm helps you get organized. You still verify everything and submit your return yourself on FBR Iris.
+		<div class="mx-auto max-w-[860px]">
+			<p class="eyebrow">Beginner FAQ</p>
+			<div class="grid gap-2">
+				{#each faq as [question, answer]}
+					<details class="card p-4">
+						<summary>{question}</summary>
+						<p class="mt-3 text-sm leading-6 text-raqm-muted">{answer}</p>
+					</details>
+				{/each}
+			</div>
+		</div>
+	</section>
+
+	<section class="section pt-0">
+		<div class="mx-auto max-w-[860px] rounded-2xl border border-raqm-border bg-white p-6 text-center">
+			<FileCheck class="mx-auto text-raqm-secondary" size={34} />
+			<h2 class="mt-3 text-3xl font-bold">Prepare privately, file manually.</h2>
+			<p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-raqm-muted">
+				Raqm helps you get calm and organized before Iris. You stay in control of every number.
 			</p>
-			<a class="btn btn-primary mt-6" href="/app/vault">Start Private Preparation</a>
+			<a class="btn btn-primary mt-5" href="/app/vault">Start private preparation</a>
 		</div>
 	</section>
 </main>

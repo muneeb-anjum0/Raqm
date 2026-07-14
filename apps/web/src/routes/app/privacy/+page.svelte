@@ -16,8 +16,30 @@
 	description="Raqm is local-first: no account system, no analytics, no cloud database for financial records."
 />
 
-<div class="grid gap-4 md:grid-cols-2">
+<div class="grid gap-3 md:grid-cols-2">
 	{#each items as item}
-		<div class="card p-5 font-black">{item}</div>
+		<div class="summary-row">
+			<span class="flow-index">✓</span>
+			<strong>{item}</strong>
+		</div>
 	{/each}
 </div>
+
+<section class="card mt-3 p-5">
+	<p class="eyebrow">Threat model</p>
+	<div class="grid gap-3 md:grid-cols-2">
+		<div>
+			<h2 class="text-lg font-bold">What Raqm does</h2>
+			<p class="mt-2 text-sm leading-6 text-raqm-muted">
+				Encrypts local records, exports files in your browser, and avoids accounts, cloud sync, analytics, and financial
+				data collection.
+			</p>
+		</div>
+		<div>
+			<h2 class="text-lg font-bold">What you still control</h2>
+			<p class="mt-2 text-sm leading-6 text-raqm-muted">
+				Browser access, shared-computer risk, installed extensions, exported files, and remembering the vault password.
+			</p>
+		</div>
+	</div>
+</section>

@@ -9,7 +9,11 @@
 {#if !$vaultStatus.isUnlocked}
 	<LockedNotice />
 {:else}
-	<form class="card grid gap-4 p-6 md:grid-cols-2" onchange={() => updateData(() => $raqmData)}>
+	<form class="card grid gap-4 p-5 md:grid-cols-2" onchange={() => updateData(() => $raqmData)}>
+		<div class="md:col-span-2">
+			<p class="eyebrow">Bank profit</p>
+			<h2 class="text-xl font-bold">Track profit and tax deducted by the bank.</h2>
+		</div>
 		<label class="field"
 			><span class="label">Bank name (optional)</span><input
 				class="input"
@@ -18,7 +22,7 @@
 		>
 		<MoneyInput label="Profit amount" bind:value={$raqmData.bankProfit.profitAmount} />
 		<MoneyInput label="Tax deducted by bank" bind:value={$raqmData.bankProfit.taxDeducted} />
-		<label class="flex items-center gap-3 font-bold"
+		<label class="flex items-center gap-3 text-sm font-bold"
 			><input type="checkbox" bind:checked={$raqmData.bankProfit.certificateAvailable} /> Certificate available</label
 		>
 		<a class="btn btn-primary w-fit" href="/app/assets">Continue</a>

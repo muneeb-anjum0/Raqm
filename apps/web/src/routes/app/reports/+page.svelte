@@ -28,14 +28,21 @@
 {#if !$vaultStatus.isUnlocked}
 	<LockedNotice />
 {:else}
-	<section class="card p-6">
-		<div class="flex flex-wrap gap-3">
+	<section class="card p-5">
+		<div class="flex flex-wrap items-start justify-between gap-3">
+			<div>
+				<p class="eyebrow">Local exports</p>
+				<h2 class="text-xl font-bold">Generate a filing handoff.</h2>
+				<p class="mt-2 text-sm leading-6 text-raqm-muted">Generated locally with rule pack metadata and date.</p>
+			</div>
+		</div>
+		<div class="mt-4 flex flex-wrap gap-2">
 			<button class="btn btn-primary" type="button" onclick={() => run('pdf')}>Export PDF</button>
 			<button class="btn btn-secondary" type="button" onclick={() => run('xlsx')}>Export Excel</button>
 			<button class="btn btn-secondary" type="button" onclick={() => run('csv')}>Export CSV</button>
 		</div>
 		{#if error}<p class="mt-4 rounded-lg bg-red-50 p-3 font-bold text-raqm-danger">{error}</p>{/if}
-		<p class="mt-4 text-sm text-raqm-muted">
+		<p class="mt-4 rounded-xl border border-raqm-border bg-raqm-background p-3 text-sm leading-6 text-raqm-muted">
 			Reports include the title, tax year, rule pack version, calculation summary, income, withholding, bank profit,
 			assets, liabilities, checklist, disclaimer, and generated date.
 		</p>
