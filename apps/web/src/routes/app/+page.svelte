@@ -158,8 +158,6 @@
 {#if !$vaultStatus.isUnlocked}
 	<section class="vault-entry">
 		<div class="vault-entry__intro">
-			<span class="brand-mark">R</span>
-			<p class="eyebrow">Private preparation</p>
 			<h1>Encrypted local vault</h1>
 			<p>Create or unlock your browser vault. Your password and raw encryption key are never stored.</p>
 		</div>
