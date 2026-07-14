@@ -1,0 +1,5 @@
+{
+  "noNegativeAmounts": true,
+  "supportedFilerTypes": ["salaried"],
+  "status": "verification-required"
+}

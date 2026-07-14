@@ -1,0 +1,10 @@
+{
+  "id": "PK-TY2026",
+  "taxYear": "2026",
+  "version": "0.1.0-placeholder",
+  "country": "PK",
+  "status": "verification-required",
+  "lastVerified": "Not manually verified",
+  "effectiveFrom": "2025-07-01",
+  "checksum": "sha256-placeholder-pending-controlled-rule-release"
+}

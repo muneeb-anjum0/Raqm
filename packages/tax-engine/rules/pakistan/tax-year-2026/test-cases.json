@@ -1,0 +1,6 @@
+{
+  "cases": [
+    { "name": "below threshold", "annualSalary": 480000, "expectedGrossTax": 0 },
+    { "name": "inside slab", "annualSalary": 1800000, "expectedGrossTax": 120000 }
+  ]
+}
