@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import {
 		createVault,
@@ -54,8 +54,8 @@
 		URL.revokeObjectURL(url);
 	}
 
-	async function importBackup(event: Event) {
-		const input = event.currentTarget as HTMLInputElement;
+	async function importBackup(event) {
+		const input = event.currentTarget;
 		const file = input.files?.[0];
 		if (!file) return;
 		await importEncryptedBackup(JSON.parse(await file.text()));

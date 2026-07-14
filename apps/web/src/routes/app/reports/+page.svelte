@@ -1,10 +1,10 @@
-<script lang="ts">
+<script>
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import LockedNotice from '$lib/components/LockedNotice.svelte';
 	import { raqmData, vaultStatus } from '$lib/app-data';
 	import { downloadBlob, exportCsv, exportPdf, exportXlsx, safeReportFilename } from '$lib/exports';
 	let error = '';
-	async function run(type: 'pdf' | 'xlsx' | 'csv') {
+	async function run(type) {
 		error = '';
 		try {
 			const taxYear = $raqmData.calculationResults?.taxYear ?? '2026';

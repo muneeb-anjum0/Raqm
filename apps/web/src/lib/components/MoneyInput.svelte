@@ -1,13 +1,5 @@
-<script lang="ts">
-	let {
-		label,
-		value = $bindable(0),
-		hint = ''
-	} = $props<{
-		label: string;
-		value: number;
-		hint?: string;
-	}>();
+<script>
+	let { label, value = $bindable(0), hint = '' } = $props();
 </script>
 
 <label class="field">

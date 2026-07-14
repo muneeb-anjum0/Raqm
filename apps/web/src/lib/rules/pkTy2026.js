@@ -1,6 +1,4 @@
-import type { RulePackManifest } from '$lib/types';
-
-export const pkTy2026Manifest: RulePackManifest = {
+export const pkTy2026Manifest = {
 	id: 'PK-TY2026',
 	taxYear: '2026',
 	version: '0.1.0-placeholder',

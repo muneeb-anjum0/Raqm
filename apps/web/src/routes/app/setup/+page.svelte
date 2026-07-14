@@ -1,13 +1,10 @@
-<script lang="ts">
+<script>
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import LockedNotice from '$lib/components/LockedNotice.svelte';
 	import { raqmData, updateData, vaultStatus } from '$lib/app-data';
 </script>
 
-<PageHeader
-	title="Setup"
-	description="Choose the tax year and MVP filer type. Later filer modes are shown as disabled placeholders."
-/>
+<PageHeader title="Setup" description="Choose the tax year and MVP filer type. Later filer modes are shown." />
 
 {#if !$vaultStatus.isUnlocked}
 	<LockedNotice />

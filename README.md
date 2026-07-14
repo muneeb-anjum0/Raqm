@@ -45,13 +45,12 @@ npm run build
 docker compose up --build
 ```
 
-The container access hub is served on `http://localhost:8080/hub`.
+The single web container is served on `http://localhost:8080`.
 
 Available endpoints:
 
 - Hub: `http://localhost:8080/hub`
-- Raqm web app via hub proxy: `http://localhost:8080/raqm`
-- Raqm web app direct: `http://localhost:3000`
+- Raqm web app: `http://localhost:8080`
 
 Backend and database interfaces are intentionally absent in the MVP because Raqm does not send financial data to a backend or store it in a server database.
 

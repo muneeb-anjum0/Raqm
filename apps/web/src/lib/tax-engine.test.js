@@ -1,11 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { calculateTax } from '$lib/tax-engine';
-import type { TaxInput } from '$lib/types';
 import { defaultRaqmData } from '$lib/validation';
 
-function input(overrides: Partial<TaxInput> = {}): TaxInput {
+function input(overrides = {}) {
 	return {
-		...(structuredClone(defaultRaqmData) as TaxInput),
+		...structuredClone(defaultRaqmData),
 		...overrides
 	};
 }

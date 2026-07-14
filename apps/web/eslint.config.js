@@ -1,10 +1,8 @@
 import js from '@eslint/js';
 import svelte from 'eslint-plugin-svelte';
-import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+export default [
 	js.configs.recommended,
-	...tseslint.configs.recommended,
 	...svelte.configs['flat/recommended'],
 	{
 		ignores: ['.svelte-kit/**', 'build/**', 'node_modules/**', 'playwright-report/**', 'test-results/**']
@@ -12,9 +10,7 @@ export default tseslint.config(
 	{
 		files: ['**/*.svelte'],
 		languageOptions: {
-			parserOptions: {
-				parser: tseslint.parser
-			}
+			parserOptions: {}
 		}
 	},
 	{
@@ -25,4 +21,4 @@ export default tseslint.config(
 			'no-undef': 'off'
 		}
 	}
-);
+];

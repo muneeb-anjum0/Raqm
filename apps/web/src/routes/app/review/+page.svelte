@@ -1,14 +1,12 @@
-<script lang="ts">
+<script>
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import LockedNotice from '$lib/components/LockedNotice.svelte';
 	import { raqmData, updateData, vaultStatus } from '$lib/app-data';
 	import { calculateAnnualSalary, createChecklist, formatPkr } from '$lib/tax-engine';
 </script>
 
-<PageHeader
-	title="Review"
-	description="Check required data before calculation. Empty states are shown as warnings instead of crashing."
-/>
+<PageHeader title="Review" description="Check required data before calculation. Empty states are shown clearly." />
+
 {#if !$vaultStatus.isUnlocked}
 	<LockedNotice />
 {:else}
@@ -43,7 +41,7 @@
 			<h2 class="text-xl font-black">Preparation checklist preview</h2>
 			<div class="mt-4 grid gap-2">
 				{#each createChecklist($raqmData) as item}
-					<div class="rounded-lg border border-raqm-border p-3">
+					<div class="rounded-2xl border border-raqm-border p-3">
 						<p class="font-black">{item.title}</p>
 						<p class="text-sm capitalize text-raqm-muted">{item.status}</p>
 					</div>

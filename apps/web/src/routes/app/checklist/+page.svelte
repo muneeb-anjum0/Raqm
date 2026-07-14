@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import LockedNotice from '$lib/components/LockedNotice.svelte';
 	import { raqmData, vaultStatus } from '$lib/app-data';
@@ -6,9 +6,10 @@
 </script>
 
 <PageHeader
-	title="Filing checklist"
+	title="Filing Checklist"
 	description="A dynamic checklist based on missing documents, entered data, and rule-engine warnings."
 />
+
 {#if !$vaultStatus.isUnlocked}
 	<LockedNotice />
 {:else}

@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import LockedNotice from '$lib/components/LockedNotice.svelte';
 	import { raqmData, vaultStatus } from '$lib/app-data';
@@ -6,9 +6,10 @@
 </script>
 
 <PageHeader
-	title="Iris-ready summary"
+	title="Iris-ready Summary"
 	description="Use this summary while preparing your return on FBR Iris. Raqm does not submit your return to FBR."
 />
+
 {#if !$vaultStatus.isUnlocked}
 	<LockedNotice />
 {:else if !$raqmData.calculationResults}

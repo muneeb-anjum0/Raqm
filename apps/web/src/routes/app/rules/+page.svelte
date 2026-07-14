@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import { pkTy2026Manifest } from '$lib/rules/pkTy2026';
 </script>

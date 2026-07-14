@@ -1,8 +1,8 @@
-<script lang="ts">
+<script>
 	import { Lock } from '@lucide/svelte';
 </script>
 
-<div class="card grid gap-4 p-6 text-center">
+<div class="card reveal grid gap-4 p-6 text-center">
 	<div class="mx-auto grid h-12 w-12 place-items-center rounded-lg bg-raqm-background text-raqm-secondary">
 		<Lock size={24} />
 	</div>

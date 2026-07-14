@@ -1,14 +1,25 @@
-<script lang="ts">
+<script>
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { Calculator, CheckSquare, FileText, Home, Landmark, Lock, Shield, SlidersHorizontal } from '@lucide/svelte';
+	import {
+		Calculator,
+		CheckSquare,
+		FileText,
+		Landmark,
+		LayoutDashboard,
+		Lock,
+		Network,
+		Shield,
+		SlidersHorizontal
+	} from '@lucide/svelte';
 	import { lockVault } from '$lib/crypto-vault';
 	import { vaultStatus } from '$lib/app-data';
 
 	let { children } = $props();
 
 	const nav = [
-		['/app', 'Dashboard', Home],
+		['/hub', 'Hub', Network],
+		['/app', 'Dashboard', LayoutDashboard],
 		['/app/setup', 'Setup', SlidersHorizontal],
 		['/app/income', 'Income', FileText],
 		['/app/withholding', 'Withholding', Landmark],
@@ -23,7 +34,7 @@
 		['/app/rules', 'Rules', Shield],
 		['/app/privacy', 'Privacy', Shield],
 		['/app/settings', 'Settings', SlidersHorizontal]
-	] as const;
+	];
 
 	function doLock() {
 		lockVault();
@@ -32,46 +43,43 @@
 	}
 </script>
 
-<div class="min-h-screen bg-raqm-background text-raqm-text">
-	<header class="sticky top-0 z-30 border-b border-raqm-border bg-white/95 backdrop-blur">
-		<div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-			<a href="/" class="flex items-center gap-3 font-extrabold text-raqm-secondary">
-				<span class="grid h-9 w-9 place-items-center rounded-lg bg-raqm-secondary text-white">R</span>
-				<span>Raqm</span>
+<div class="app-frame">
+	<header class="topbar">
+		<div class="mx-auto flex max-w-[1480px] flex-wrap items-center justify-between gap-3 px-5 py-4">
+			<a href="/" class="flex items-center gap-3 text-raqm-secondary no-underline">
+				<span class="brand-mark">R</span>
+				<span>
+					<span class="block text-lg font-black leading-none text-raqm-text">Raqm</span>
+					<span class="text-xs font-black uppercase tracking-[0.14em] text-raqm-muted">Private by design</span>
+				</span>
 			</a>
 			<div class="flex items-center gap-2">
+				<a class="btn btn-secondary hidden py-2 md:inline-flex" href="/hub">Hub</a>
 				<span class="badge">
 					<Lock size={14} />
 					{$vaultStatus.isUnlocked ? 'Vault unlocked' : 'Vault locked'}
 				</span>
 				{#if $vaultStatus.isUnlocked}
-					<button class="btn btn-secondary py-2" type="button" onclick={doLock}>Lock</button>
+					<button class="btn btn-primary py-2" type="button" onclick={doLock}>Lock</button>
 				{/if}
 			</div>
 		</div>
 	</header>
 
-	<div class="mx-auto grid max-w-7xl gap-4 px-4 py-5 lg:grid-cols-[250px_1fr]">
-		<aside class="card h-fit p-2 lg:sticky lg:top-20">
+	<div class="app-grid">
+		<aside class="sidebar">
 			<nav class="grid gap-1">
 				{#each nav as [href, label, Icon]}
-					<a
-						class:!bg-raqm-secondary={$page.url.pathname === href}
-						class:!text-white={$page.url.pathname === href}
-						class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-bold text-raqm-muted hover:bg-raqm-background hover:text-raqm-secondary"
-						{href}
-					>
-						<Icon size={16} />
+					<a class:active={$page.url.pathname === href} class="nav-link" {href}>
+						<Icon size={17} />
 						{label}
 					</a>
 				{/each}
 			</nav>
 		</aside>
-		<main class="min-w-0">
+		<main class="content-panel">
 			{#if $vaultStatus.message}
-				<div class="mb-4 rounded-lg border border-raqm-border bg-white px-4 py-3 text-sm font-semibold text-raqm-muted">
-					{$vaultStatus.message}
-				</div>
+				<div class="save-toast">{$vaultStatus.message}</div>
 			{/if}
 			{@render children()}
 		</main>

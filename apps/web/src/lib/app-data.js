@@ -1,10 +1,9 @@
-import { writable, get } from 'svelte/store';
-import type { RaqmData } from '$lib/types';
+import { get, writable } from 'svelte/store';
 import { defaultRaqmData } from '$lib/validation';
 import { calculateTax } from '$lib/tax-engine';
 import { hasVault, isVaultUnlocked, loadCollection, saveCollection } from '$lib/crypto-vault';
 
-export const raqmData = writable<RaqmData>(structuredClone(defaultRaqmData) as RaqmData);
+export const raqmData = writable(structuredClone(defaultRaqmData));
 export const vaultStatus = writable({
 	hasVault: false,
 	isUnlocked: false,
@@ -12,7 +11,7 @@ export const vaultStatus = writable({
 	message: ''
 });
 
-let autoLockTimer: ReturnType<typeof setTimeout> | null = null;
+let autoLockTimer = null;
 
 export async function refreshVaultStatus() {
 	vaultStatus.update((state) => ({
@@ -25,8 +24,8 @@ export async function refreshVaultStatus() {
 
 export async function loadVaultData() {
 	if (!isVaultUnlocked()) throw new Error('Vault is locked.');
-	const loaded = await loadCollection<RaqmData>('raqmData', structuredClone(defaultRaqmData) as RaqmData);
-	raqmData.set({ ...(structuredClone(defaultRaqmData) as RaqmData), ...loaded });
+	const loaded = await loadCollection('raqmData', structuredClone(defaultRaqmData));
+	raqmData.set({ ...structuredClone(defaultRaqmData), ...loaded });
 	vaultStatus.update((state) => ({
 		...state,
 		isUnlocked: true,
@@ -42,7 +41,7 @@ export async function persistData() {
 	resetAutoLock();
 }
 
-export async function updateData(mutator: (data: RaqmData) => RaqmData) {
+export async function updateData(mutator) {
 	raqmData.update((current) => mutator(structuredClone(current)));
 	await persistData();
 }
@@ -58,10 +57,15 @@ export async function runCalculation() {
 export function resetAutoLock() {
 	if (autoLockTimer) clearTimeout(autoLockTimer);
 	autoLockTimer = setTimeout(
-		async () => {
-			const { lockVault } = await import('$lib/crypto-vault');
-			lockVault();
-			vaultStatus.update((state) => ({ ...state, isUnlocked: false, message: 'Vault auto-locked after inactivity.' }));
+		() => {
+			import('$lib/crypto-vault').then(({ lockVault }) => {
+				lockVault();
+				vaultStatus.update((state) => ({
+					...state,
+					isUnlocked: false,
+					message: 'Vault auto-locked after inactivity.'
+				}));
+			});
 		},
 		15 * 60 * 1000
 	);

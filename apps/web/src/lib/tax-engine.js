@@ -1,14 +1,13 @@
-import { type FilingChecklistItem, type IrisFieldMapping, type TaxCalculationResult, type TaxInput } from '$lib/types';
 import { taxInputSchema } from '$lib/validation';
 import { pkTy2026Manifest, salariedSlabs } from '$lib/rules/pkTy2026';
 
-export function calculateAnnualSalary(input: TaxInput) {
+export function calculateAnnualSalary(input) {
 	const salary =
 		input.profile.salaryMode === 'monthly' ? (input.income.monthlySalary ?? 0) * 12 : (input.income.annualSalary ?? 0);
 	return salary + (input.income.bonus ?? 0) + (input.income.otherTaxableSalary ?? 0);
 }
 
-export function calculateTax(input: TaxInput): TaxCalculationResult {
+export function calculateTax(input) {
 	const parsed = taxInputSchema.safeParse(structuredClone(input));
 	if (!parsed.success) {
 		return {
@@ -42,7 +41,7 @@ export function calculateTax(input: TaxInput): TaxCalculationResult {
 		};
 	}
 
-	const safeInput = parsed.data as TaxInput;
+	const safeInput = parsed.data;
 	const annualSalary = calculateAnnualSalary(safeInput);
 	const taxableIncome = annualSalary;
 	const matchedSlab =
@@ -104,7 +103,7 @@ export function calculateTax(input: TaxInput): TaxCalculationResult {
 	};
 }
 
-export function createExplanation(result: TaxCalculationResult) {
+export function createExplanation(result) {
 	const balanceText =
 		result.estimatedPayable > 0
 			? `Your estimated remaining payable amount is PKR ${formatPkr(result.estimatedPayable)}.`
@@ -117,7 +116,7 @@ export function createExplanation(result: TaxCalculationResult) {
 	];
 }
 
-export function createIrisMapping(input: TaxInput, result: TaxCalculationResult): IrisFieldMapping[] {
+export function createIrisMapping(input, result) {
 	return [
 		{ label: 'Tax year', value: result.taxYear, notes: 'Confirm selected year in Iris.' },
 		{ label: 'Salary income', value: result.annualSalary, notes: 'Use salary certificate values.' },
@@ -139,8 +138,8 @@ export function createIrisMapping(input: TaxInput, result: TaxCalculationResult)
 	];
 }
 
-export function createChecklist(input: TaxInput, result?: TaxCalculationResult): FilingChecklistItem[] {
-	const items: FilingChecklistItem[] = [
+export function createChecklist(input, result) {
+	const items = [
 		{
 			id: 'salary-certificate',
 			title: 'Salary certificate',
@@ -196,12 +195,12 @@ export function createChecklist(input: TaxInput, result?: TaxCalculationResult):
 	return items;
 }
 
-export function formatPkr(value: number) {
+export function formatPkr(value) {
 	return new Intl.NumberFormat('en-PK', { maximumFractionDigits: 0 }).format(Math.round(value || 0));
 }
 
-function createWarnings(input: TaxInput, annualSalary: number) {
-	const warnings: string[] = [];
+function createWarnings(input, annualSalary) {
+	const warnings = [];
 	if (pkTy2026Manifest.status === 'verification-required') {
 		warnings.push(
 			'Rule Verification Required: rule values must be checked against official Pakistan tax sources before relying on the estimate.'
@@ -216,15 +215,15 @@ function createWarnings(input: TaxInput, annualSalary: number) {
 	return warnings;
 }
 
-function createMissingFields(input: TaxInput) {
-	const missing: string[] = [];
+function createMissingFields(input) {
+	const missing = [];
 	if (calculateAnnualSalary(input) <= 0) missing.push('income.salary');
 	if (!input.profile.taxYear) missing.push('profile.taxYear');
 	if (input.profile.filerType !== 'salaried') missing.push('profile.filerType');
 	return missing;
 }
 
-function totalAssets(input: TaxInput) {
+function totalAssets(input) {
 	return (
 		input.assets.cash +
 		input.assets.bankBalance +
@@ -235,7 +234,7 @@ function totalAssets(input: TaxInput) {
 	);
 }
 
-function totalLiabilities(input: TaxInput) {
+function totalLiabilities(input) {
 	return (
 		input.liabilities.loans +
 		input.liabilities.creditCardPayable +

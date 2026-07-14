@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import AppShell from '$lib/components/AppShell.svelte';
 	import { onMount } from 'svelte';
 	import { refreshVaultStatus } from '$lib/app-data';

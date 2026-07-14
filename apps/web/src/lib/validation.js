@@ -110,9 +110,9 @@ export const defaultRaqmData = {
 		personalPayable: 0,
 		other: 0
 	}
-} as const;
+};
 
-export function suspiciousWarnings(values: Record<string, number>) {
+export function suspiciousWarnings(values) {
 	return Object.entries(values)
 		.filter(([, value]) => value > 500_000_000)
 		.map(([key]) => `${key} looks unusually large. Please review it before filing.`);

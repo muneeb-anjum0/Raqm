@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import PageHeader from '$lib/components/PageHeader.svelte';
 	import LockedNotice from '$lib/components/LockedNotice.svelte';
 	import MoneyInput from '$lib/components/MoneyInput.svelte';

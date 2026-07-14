@@ -1,18 +1,6 @@
-import Dexie, { type Table } from 'dexie';
-import type { EncryptedRecord } from '$lib/types';
-
-type VaultMeta = {
-	id: string;
-	salt: string;
-	kdf: 'PBKDF2';
-	iterations: number;
-	createdAt: string;
-};
+import Dexie from 'dexie';
 
 class RaqmVaultDb extends Dexie {
-	records!: Table<EncryptedRecord, string>;
-	meta!: Table<VaultMeta, string>;
-
 	constructor() {
 		super('raqm-vault');
 		this.version(1).stores({
@@ -27,20 +15,19 @@ export const vaultDb = new RaqmVaultDb();
 const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 const KDF_ITERATIONS = 250_000;
-
-let activeKey: CryptoKey | null = null;
 const activeSaltVersion = 'v1';
+
+let activeKey = null;
 
 export async function hasVault() {
 	return Boolean(await vaultDb.meta.get('vault'));
 }
 
-export async function createVault(password: string) {
+export async function createVault(password) {
 	const salt = crypto.getRandomValues(new Uint8Array(16));
-	const saltText = bytesToBase64(salt);
 	await vaultDb.meta.put({
 		id: 'vault',
-		salt: saltText,
+		salt: bytesToBase64(salt),
 		kdf: 'PBKDF2',
 		iterations: KDF_ITERATIONS,
 		createdAt: new Date().toISOString()
@@ -49,14 +36,12 @@ export async function createVault(password: string) {
 	return true;
 }
 
-export async function unlockVault(password: string) {
+export async function unlockVault(password) {
 	const meta = await vaultDb.meta.get('vault');
 	if (!meta) throw new Error('No local vault exists yet.');
 	const key = await deriveKey(password, base64ToBytes(meta.salt), meta.iterations);
 	const probe = await vaultDb.records.get('vault-probe');
-	if (probe) {
-		await decryptRecord(probe, key);
-	}
+	if (probe) await decryptRecord(probe, key);
 	activeKey = key;
 	return true;
 }
@@ -69,7 +54,7 @@ export function isVaultUnlocked() {
 	return Boolean(activeKey);
 }
 
-export async function saveCollection<T>(collection: string, value: T) {
+export async function saveCollection(collection, value) {
 	if (!activeKey) throw new Error('Vault is locked.');
 	const now = new Date().toISOString();
 	const existing = await vaultDb.records.get(collection);
@@ -80,11 +65,11 @@ export async function saveCollection<T>(collection: string, value: T) {
 	}
 }
 
-export async function loadCollection<T>(collection: string, fallback: T): Promise<T> {
+export async function loadCollection(collection, fallback) {
 	if (!activeKey) throw new Error('Vault is locked.');
 	const record = await vaultDb.records.get(collection);
 	if (!record) return fallback;
-	return decryptRecord<T>(record, activeKey);
+	return decryptRecord(record, activeKey);
 }
 
 export async function exportEncryptedBackup() {
@@ -98,16 +83,15 @@ export async function exportEncryptedBackup() {
 	};
 }
 
-export async function importEncryptedBackup(backup: unknown) {
-	const parsed = backup as { meta?: VaultMeta[]; records?: EncryptedRecord[] };
-	if (!Array.isArray(parsed.meta) || !Array.isArray(parsed.records)) {
+export async function importEncryptedBackup(backup) {
+	if (!Array.isArray(backup?.meta) || !Array.isArray(backup?.records)) {
 		throw new Error('Invalid backup file.');
 	}
 	await vaultDb.transaction('rw', vaultDb.meta, vaultDb.records, async () => {
 		await vaultDb.meta.clear();
 		await vaultDb.records.clear();
-		await vaultDb.meta.bulkPut(parsed.meta ?? []);
-		await vaultDb.records.bulkPut(parsed.records ?? []);
+		await vaultDb.meta.bulkPut(backup.meta);
+		await vaultDb.records.bulkPut(backup.records);
 	});
 	lockVault();
 }
@@ -118,18 +102,13 @@ export async function panicWipe() {
 	activeKey = null;
 }
 
-export async function encryptForTest(value: unknown, password = 'test-password') {
+export async function encryptForTest(value, password = 'test-password') {
 	const salt = crypto.getRandomValues(new Uint8Array(16));
 	const key = await deriveKey(password, salt, 10_000);
 	return encryptValue('test', value, key, new Date().toISOString());
 }
 
-async function encryptValue<T>(
-	collection: string,
-	value: T,
-	key: CryptoKey,
-	createdAt: string
-): Promise<EncryptedRecord> {
+async function encryptValue(collection, value, key, createdAt) {
 	const iv = crypto.getRandomValues(new Uint8Array(12));
 	const plaintext = encoder.encode(JSON.stringify(value));
 	const ciphertext = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, plaintext);
@@ -145,16 +124,16 @@ async function encryptValue<T>(
 	};
 }
 
-async function decryptRecord<T>(record: EncryptedRecord, key: CryptoKey): Promise<T> {
+async function decryptRecord(record, key) {
 	const plaintext = await crypto.subtle.decrypt(
 		{ name: 'AES-GCM', iv: base64ToBytes(record.iv) },
 		key,
 		base64ToBytes(record.ciphertext)
 	);
-	return JSON.parse(decoder.decode(plaintext)) as T;
+	return JSON.parse(decoder.decode(plaintext));
 }
 
-async function deriveKey(password: string, salt: Uint8Array, iterations: number) {
+async function deriveKey(password, salt, iterations) {
 	if (password.length < 8) throw new Error('Use at least 8 characters for the vault password.');
 	const material = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveKey']);
 	return crypto.subtle.deriveKey(
@@ -171,14 +150,14 @@ async function deriveKey(password: string, salt: Uint8Array, iterations: number)
 	);
 }
 
-function bytesToBase64(bytes: Uint8Array) {
+function bytesToBase64(bytes) {
 	return btoa(String.fromCharCode(...bytes));
 }
 
-function base64ToBytes(value: string) {
+function base64ToBytes(value) {
 	return Uint8Array.from(atob(value), (char) => char.charCodeAt(0));
 }
 
-function toArrayBuffer(bytes: Uint8Array) {
-	return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
+function toArrayBuffer(bytes) {
+	return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
 }

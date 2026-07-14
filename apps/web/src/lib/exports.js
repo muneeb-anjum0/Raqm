@@ -1,9 +1,8 @@
 import ExcelJS from 'exceljs';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import type { RaqmData, TaxCalculationResult } from '$lib/types';
 import { createChecklist, createIrisMapping, formatPkr } from '$lib/tax-engine';
 
-export async function exportPdf(data: RaqmData) {
+export async function exportPdf(data) {
 	const result = ensureResult(data);
 	const pdf = await PDFDocument.create();
 	const page = pdf.addPage([595, 842]);
@@ -18,12 +17,12 @@ export async function exportPdf(data: RaqmData) {
 		y -= 18;
 	}
 	const bytes = await pdf.save();
-	return new Blob([bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer], {
+	return new Blob([bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)], {
 		type: 'application/pdf'
 	});
 }
 
-export async function exportXlsx(data: RaqmData) {
+export async function exportXlsx(data) {
 	const result = ensureResult(data);
 	const workbook = new ExcelJS.Workbook();
 	workbook.creator = 'Raqm';
@@ -45,7 +44,7 @@ export async function exportXlsx(data: RaqmData) {
 	return new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 }
 
-export function exportCsv(data: RaqmData) {
+export function exportCsv(data) {
 	const result = ensureResult(data);
 	const rows = [
 		['Raqm Tax Preparation Summary'],
@@ -64,11 +63,11 @@ export function exportCsv(data: RaqmData) {
 	return new Blob([rows.map((row) => row.map(csvCell).join(',')).join('\n')], { type: 'text/csv;charset=utf-8' });
 }
 
-export function safeReportFilename(taxYear: string, extension: 'pdf' | 'xlsx' | 'csv') {
+export function safeReportFilename(taxYear, extension) {
 	return `raqm-tax-summary-${taxYear}.${extension}`;
 }
 
-export function downloadBlob(blob: Blob, filename: string) {
+export function downloadBlob(blob, filename) {
 	const url = URL.createObjectURL(blob);
 	const anchor = document.createElement('a');
 	anchor.href = url;
@@ -77,12 +76,12 @@ export function downloadBlob(blob: Blob, filename: string) {
 	URL.revokeObjectURL(url);
 }
 
-function ensureResult(data: RaqmData): TaxCalculationResult {
+function ensureResult(data) {
 	if (data.calculationResults) return data.calculationResults;
 	throw new Error('Run calculation before exporting reports.');
 }
 
-function reportLines(data: RaqmData, result: TaxCalculationResult) {
+function reportLines(data, result) {
 	return [
 		`Tax year: ${result.taxYear}`,
 		`Rule pack: ${result.rulePackVersion}`,
@@ -102,6 +101,6 @@ function reportLines(data: RaqmData, result: TaxCalculationResult) {
 	];
 }
 
-function csvCell(value: unknown) {
+function csvCell(value) {
 	return `"${String(value ?? '').replaceAll('"', '""')}"`;
 }
