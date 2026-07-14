@@ -55,7 +55,7 @@
 				estimate tax, and walk into FBR Iris with a clean handoff.
 			</p>
 			<div class="hero-actions">
-				<a class="btn btn-primary" href="/app/vault">Start private preparation <ArrowRight size={17} /></a>
+				<a class="btn btn-primary" href="/app">Start private preparation <ArrowRight size={17} /></a>
 				<a class="btn btn-secondary" href="#guide">Learn the flow</a>
 			</div>
 		</div>
@@ -104,7 +104,7 @@
 				<p class="mt-3 text-sm leading-6 text-raqm-muted">
 					Salary, withholding, assets, liabilities, and reports stay in the encrypted local vault.
 				</p>
-				<a class="service-link" href="/app/vault">Open vault <ArrowRight size={15} /></a>
+				<a class="service-link" href="/app">Open vault <ArrowRight size={15} /></a>
 			</article>
 			<article class="card p-5">
 				<p class="eyebrow">Tax filing, explained simply</p>
@@ -178,7 +178,7 @@
 			<p class="mx-auto mt-3 max-w-xl text-sm leading-6 text-raqm-muted">
 				Raqm helps you get calm and organized before Iris. You stay in control of every number.
 			</p>
-			<a class="btn btn-primary mt-5" href="/app/vault">Start private preparation</a>
+			<a class="btn btn-primary mt-5" href="/app">Start private preparation</a>
 		</div>
 	</section>
 </main>

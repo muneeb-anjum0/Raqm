@@ -12,5 +12,5 @@
 			Financial data is encrypted in this browser. Unlock before opening protected preparation pages.
 		</p>
 	</div>
-	<a class="btn btn-primary mx-auto" href="/app/vault">Open vault</a>
+	<a class="btn btn-primary mx-auto" href="/app">Open vault</a>
 </div>

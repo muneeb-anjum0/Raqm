@@ -23,6 +23,6 @@
 			</p>
 		</div>
 		<button class="btn btn-secondary w-fit" type="button" onclick={doLock}>Lock vault now</button>
-		<a class="btn btn-danger w-fit" href="/app/vault">Panic wipe controls</a>
+		<a class="btn btn-danger w-fit" href="/app">Panic wipe controls</a>
 	</section>
 {/if}
