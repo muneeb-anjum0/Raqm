@@ -133,7 +133,7 @@
 			<p class="mt-1 text-sm leading-6 text-raqm-muted">
 				Type WIPE RAQM to delete encrypted local records from this browser.
 			</p>
-			<input class="input mt-3" bind:value={wipeConfirm} />
+			<input class="input mt-3" aria-label="Panic wipe confirmation" bind:value={wipeConfirm} />
 			<button class="btn btn-danger mt-3 w-full" type="button" disabled={wipeConfirm !== 'WIPE RAQM'} onclick={wipe}
 				>Panic wipe local data</button
 			>
