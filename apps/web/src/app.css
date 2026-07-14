@@ -282,8 +282,9 @@ textarea:focus-visible {
 }
 
 .page-header {
-	margin: 0 auto 1.1rem;
-	max-width: 960px;
+	margin: 0 0 1.1rem;
+	max-width: none;
+	width: 100%;
 	animation: reveal 340ms ease both;
 }
 
@@ -841,7 +842,7 @@ textarea:focus-visible {
 	display: none;
 	align-self: start;
 	min-height: calc(100vh - 7.5rem);
-	padding: 1rem 0 1rem 0.2rem;
+	padding: 0.25rem 0 1rem 0.2rem;
 }
 
 .step-panel {

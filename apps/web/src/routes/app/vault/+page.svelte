@@ -82,11 +82,11 @@
 />
 
 <div class="grid gap-3 lg:grid-cols-[1fr_0.82fr]">
-	<form class="card grid gap-4 p-5">
-		<div class="flex items-start justify-between gap-4">
+	<form class="card compact-vault-card grid gap-3 p-4">
+		<div class="flex items-start justify-between gap-3">
 			<div>
 				<p class="eyebrow">Secure workspace</p>
-				<h2 class="text-xl font-bold">{exists ? 'Unlock vault' : 'Create vault password'}</h2>
+				<h2 class="text-lg font-bold">{exists ? 'Unlock vault' : 'Create vault password'}</h2>
 			</div>
 			<span class="status-pill {$vaultStatus.isUnlocked ? 'status-success' : ''}">
 				{$vaultStatus.isUnlocked ? 'Unlocked' : 'Locked'}
@@ -97,24 +97,24 @@
 		</p>
 		<label class="field">
 			<span class="label">Vault password</span>
-			<input class="input" type="password" bind:value={password} autocomplete="current-password" />
+			<input class="input compact-input" type="password" bind:value={password} autocomplete="current-password" />
 		</label>
 		{#if !exists}
 			<label class="field">
 				<span class="label">Confirm password</span>
-				<input class="input" type="password" bind:value={confirm} autocomplete="new-password" />
+				<input class="input compact-input" type="password" bind:value={confirm} autocomplete="new-password" />
 			</label>
 		{/if}
 		{#if error}<p class="rounded-lg bg-red-50 p-3 text-sm font-bold text-raqm-danger">{error}</p>{/if}
-		<button class="btn btn-primary w-fit" type="button" disabled={!hydrated} onclick={createOrUnlock}
+		<button class="btn btn-primary compact-action" type="button" disabled={!hydrated} onclick={createOrUnlock}
 			>{exists ? 'Unlock vault' : 'Create encrypted vault'}</button
 		>
 	</form>
 
-	<section class="card grid gap-4 p-5">
+	<section class="card grid gap-3 p-4">
 		<div>
 			<p class="eyebrow">Controls</p>
-			<h2 class="text-xl font-bold">Vault controls</h2>
+			<h2 class="text-lg font-bold">Vault controls</h2>
 		</div>
 		<p class="text-sm leading-6 text-raqm-muted">
 			Backup files remain encrypted. Import replaces the local vault metadata and records.
@@ -128,13 +128,13 @@
 				<input class="sr-only" type="file" accept="application/json" onchange={importBackup} />
 			</label>
 		</div>
-		<div class="rounded-xl border border-raqm-border bg-white p-4">
+		<div class="rounded-xl border border-raqm-border bg-white p-3">
 			<h3 class="font-bold text-raqm-danger">Panic wipe</h3>
 			<p class="mt-1 text-sm leading-6 text-raqm-muted">
 				Type WIPE RAQM to delete encrypted local records from this browser.
 			</p>
-			<input class="input mt-3" aria-label="Panic wipe confirmation" bind:value={wipeConfirm} />
-			<button class="btn btn-danger mt-3 w-full" type="button" disabled={wipeConfirm !== 'WIPE RAQM'} onclick={wipe}
+			<input class="input compact-input mt-2" aria-label="Panic wipe confirmation" bind:value={wipeConfirm} />
+			<button class="btn btn-danger mt-2 w-full" type="button" disabled={wipeConfirm !== 'WIPE RAQM'} onclick={wipe}
 				>Panic wipe local data</button
 			>
 		</div>

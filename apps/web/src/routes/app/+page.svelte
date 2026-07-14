@@ -221,13 +221,6 @@
 {:else}
 	<div class="prep-shell">
 		<aside class="prep-sidebar">
-			<a href="/" class="brand-lockup mb-8">
-				<span class="brand-mark">R</span>
-				<span>
-					<span class="brand-name">Raqm</span>
-					<span class="brand-sub">TY {$raqmData.profile.taxYear}</span>
-				</span>
-			</a>
 			<LineSidebar items={steps} active={activeStep} onSelect={(index) => saveAndGo(index)} />
 		</aside>
 
