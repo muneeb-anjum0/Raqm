@@ -1,5 +1,5 @@
 <script>
-	import { ArrowRight, Check, FileCheck, Lock, ShieldCheck } from '@lucide/svelte';
+	import { ArrowRight, Check, FileCheck, FileText, Lock, ShieldCheck } from '@lucide/svelte';
 	import { pkTy2026Manifest } from '$lib/rules/pkTy2026';
 
 	const workflow = [
@@ -42,21 +42,6 @@
 </svelte:head>
 
 <main class="landing-page">
-	<nav class="site-nav" aria-label="Landing navigation">
-		<a href="/" class="brand-lockup">
-			<span class="brand-mark">R</span>
-			<span>
-				<span class="brand-name">Raqm</span>
-				<span class="brand-sub">Pakistan tax prep, locally</span>
-			</span>
-		</a>
-		<div class="top-actions">
-			<a class="top-link" href="/hub">Hub</a>
-			<a class="top-link" href="/app/privacy">Privacy</a>
-			<a class="btn btn-primary" href="/app/vault">Start</a>
-		</div>
-	</nav>
-
 	<section class="hero-shell">
 		<div class="reveal">
 			<div class="mb-4 flex flex-wrap gap-2">
@@ -76,6 +61,12 @@
 		</div>
 
 		<aside class="hero-panel reveal delay-1" aria-label="Product preview">
+			<p class="eyebrow">One Docker endpoint</p>
+			<strong class="mt-2 block text-2xl font-bold">http://localhost:8080</strong>
+			<p class="mt-2 text-sm leading-6 text-raqm-muted">
+				Expected running service: web. Expected container: raqm-web-1.
+			</p>
+			<div class="my-4 h-px bg-raqm-border"></div>
 			<p class="eyebrow">Before Iris</p>
 			<div class="timeline">
 				{#each workflow as [title, body], index}
@@ -94,27 +85,33 @@
 	<section id="guide" class="section pt-8">
 		<div class="mx-auto grid max-w-[1180px] gap-3 md:grid-cols-3">
 			<article class="card p-5">
+				<div class="service-icon">
+					<FileText size={18} />
+				</div>
+				<p class="eyebrow mt-3">Start / Continue</p>
+				<h2 class="text-xl font-bold">Resume the local workflow.</h2>
+				<p class="mt-3 text-sm leading-6 text-raqm-muted">
+					Open the focused preparation flow in the same Svelte container, from vault through reports.
+				</p>
+				<a class="service-link" href="/app">Open workflow <ArrowRight size={15} /></a>
+			</article>
+			<article class="card p-5">
+				<div class="service-icon">
+					<ShieldCheck size={18} />
+				</div>
+				<p class="eyebrow mt-3">Private Vault</p>
+				<h2 class="text-xl font-bold">Encrypted browser storage.</h2>
+				<p class="mt-3 text-sm leading-6 text-raqm-muted">
+					Salary, withholding, assets, liabilities, and reports stay in the encrypted local vault.
+				</p>
+				<a class="service-link" href="/app/vault">Open vault <ArrowRight size={15} /></a>
+			</article>
+			<article class="card p-5">
 				<p class="eyebrow">Tax filing, explained simply</p>
 				<h2 class="text-xl font-bold">Your return is the annual story of your money.</h2>
 				<p class="mt-3 text-sm leading-6 text-raqm-muted">
 					Raqm turns salary, withholding, bank profit, assets, and liabilities into a checklist you can review before
 					entering Iris.
-				</p>
-			</article>
-			<article class="card p-5">
-				<p class="eyebrow">What is FBR Iris?</p>
-				<h2 class="text-xl font-bold">The official place to file.</h2>
-				<p class="mt-3 text-sm leading-6 text-raqm-muted">
-					Raqm does not replace Iris. It gives you a local preparation workspace so the official filing step feels less
-					opaque.
-				</p>
-			</article>
-			<article class="card p-5">
-				<p class="eyebrow">Why filing matters</p>
-				<h2 class="text-xl font-bold">Deducted tax still needs context.</h2>
-				<p class="mt-3 text-sm leading-6 text-raqm-muted">
-					Employer and bank withholding are adjustable tax paid. Filing helps reconcile them against your full annual
-					position.
 				</p>
 			</article>
 		</div>

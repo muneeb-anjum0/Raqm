@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { Home, Lock, Settings, Shield, Sparkles } from '@lucide/svelte';
+	import { Home, Lock, Settings, Shield } from '@lucide/svelte';
 	import { lockVault } from '$lib/crypto-vault';
 	import { vaultStatus } from '$lib/app-data';
 	import Dock from '$lib/components/Dock.svelte';
@@ -9,7 +9,6 @@
 	let { children } = $props();
 
 	const dockItems = [
-		['/hub', 'Hub', Sparkles],
 		['/app', 'Home', Home],
 		['/app/rules', 'Rules', Shield],
 		['/app/privacy', 'Privacy', Shield],
