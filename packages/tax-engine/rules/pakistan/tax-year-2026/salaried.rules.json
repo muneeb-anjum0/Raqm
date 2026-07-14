@@ -1,0 +1,11 @@
+{
+  "status": "verification-required",
+  "slabs": [
+    { "ruleId": "PK-TY2026-SAL-001", "lowerBound": 0, "upperBound": 600000, "rate": 0, "baseTax": 0 },
+    { "ruleId": "PK-TY2026-SAL-002", "lowerBound": 600000, "upperBound": 1200000, "rate": 0.05, "baseTax": 0 },
+    { "ruleId": "PK-TY2026-SAL-003", "lowerBound": 1200000, "upperBound": 2200000, "rate": 0.15, "baseTax": 30000 },
+    { "ruleId": "PK-TY2026-SAL-004", "lowerBound": 2200000, "upperBound": 3200000, "rate": 0.25, "baseTax": 180000 },
+    { "ruleId": "PK-TY2026-SAL-005", "lowerBound": 3200000, "upperBound": 4100000, "rate": 0.3, "baseTax": 430000 },
+    { "ruleId": "PK-TY2026-SAL-006", "lowerBound": 4100000, "upperBound": null, "rate": 0.35, "baseTax": 700000 }
+  ]
+}
